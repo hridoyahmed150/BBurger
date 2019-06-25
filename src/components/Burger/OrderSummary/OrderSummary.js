@@ -1,6 +1,7 @@
 import React from 'react';
 import Auxiliary from './../../../hoc/Auxiliary';
 import classes from './OrderSummary.module.css';
+import Button from './../../UI/Button/Button';
 
 
 const orderSummary=(props)=>{
@@ -22,8 +23,15 @@ const orderSummary=(props)=>{
                 {ingredientSummary}
             </ul>
             <p>
+                <strong>
+                    Total Price : {props.price} Tk
+                </strong>
+            </p>
+            <p>
                 continue to checkout ?
             </p>
+            <Button btnType="Danger" click={props.purchaseCancel}>Cancel</Button>
+            <Button btnType="Success" click={props.purchaseContinur}>Continue</Button>
         </Auxiliary>
     )
 }
