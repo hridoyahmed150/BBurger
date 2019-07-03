@@ -52,26 +52,36 @@ class BurgerBuilder extends Component {
 
     purchaseContinueHandeler=()=>{
         // console.log('continue');
-        this.setState({loading:true});
-        const order={
-            ingredients: this.state.ingredients,
-            Price: this.state.totalPrice,
-            customer:{
-                name:'',
-                address:{
-                    street:'dhaka',
-                    zipCode:'1207',
-                    country:'Bangladesh'
-                },
-                email: 'test@gmail.com'
-            },
-            deliveryMethod: 'fistest'
+        // this.setState({loading:true});
+        // const order={
+        //     ingredients: this.state.ingredients,
+        //     Price: this.state.totalPrice,
+        //     customer:{
+        //         name:'',
+        //         address:{
+        //             street:'dhaka',
+        //             zipCode:'1207',
+        //             country:'Bangladesh'
+        //         },
+        //         email: 'test@gmail.com'
+        //     },
+        //     deliveryMethod: 'fistest'
+        // }
+        // axios.post('/orders.json',order).then(response=>{
+        //     this.setState({loading: false ,purchasing: false});
+        // }).catch(error=>{
+        //     this.setState({loading: false ,purchasing: false});
+        // });
+        const queryParams=[];
+        for(let i in this.state.ingredients){
+          queryParams.push(encodeURIComponent(i)+'='+encodeURIComponent(this.state.ingredients[i]));
         }
-        axios.post('/orders.json',order).then(response=>{
-            this.setState({loading: false ,purchasing: false});
-        }).catch(error=>{
-            this.setState({loading: false ,purchasing: false});
+        const queryString=queryParams.join('&');
+        this.props.history.push({
+          pathname: '/checkout',
+          search: '?'+queryString
         });
+
     }
     addIngredientHandler=(type)=>{
         const oldCount= this.state.ingredients[type];
@@ -140,7 +150,6 @@ class BurgerBuilder extends Component {
         if(this.state.loading){
             orderSummary=<Spinner />;
         }
-
         return (
             <Auxiliary>
                 <Model show={this.state.purchasing} modelClosed={this.purchaseCancelHandeler}>
